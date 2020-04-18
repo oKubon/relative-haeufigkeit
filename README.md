@@ -8,7 +8,7 @@ Dieses Skript errechnet aus beliebig vielen Zahlen die relative kumulierte Häuf
 
 
 <h2>Zu Beachten!!!!</h2>
-Wenn Sie Ihre Zahlen in die "daten.txt" schreiben, achten Sie darauf, dass einstelligen Nummern ein zusätzliches Leerzeichen benötigen.<br>
+Wenn Sie Ihre Zahlen in die "daten.txt" schreiben, achten Sie darauf, dass einstelligen Nummern ein zusätzliches Leerzeichen beinhalten.<br>
 Beispiel: <br>
 12,15,16,9,10 --> falsch<br>
 12,15,16, 9,10 -- richtig!

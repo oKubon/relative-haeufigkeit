@@ -1,4 +1,4 @@
-# muscle-memory
+# Relative Häufigkeit
 Dieses Skript errechnet aus beliebig vielen Zahlen die relative kumulierte Häufigkeit F(xi).<br>
 
 <h3>Funktionsweise:</h3>

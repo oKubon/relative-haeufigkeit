@@ -12,15 +12,13 @@ Hxi = kumulierte Häufigkeit
 Fxi = relative kummulierte Häufigkeit
 """
 #testcomment
-print("test")
 import pprint
 import pandas as pd
 
 
 # Einlesen von Daten
 def data(): 
-    file = open("data.txt","r") # txt Datei wird eingelesen
-    data = file.read().split(",") # Datensätze werden mit , getrennt
+    data = input("Eingabe\n")
     data = sorted(data) # Sortierung von Datensätzen
     data = {"Xi":data} # Umwandlung in ein Dictionary
     return data
@@ -92,13 +90,15 @@ def Fxi(data):
 def main():
     # Speichert die ausgeführten Funktionen in mydict
     mydict = Fxi(Hxi(fxi(hxi(data()))))
-    print(mydict)
-    # Erstellt aus dem fertigen Dictionary eine csv Datei im selben Verzeichnis
-    (pd.DataFrame.from_dict(data=mydict, orient='index')
-     .to_csv('new_data.csv', header=False))
-
+    print("\nErgebnis:\n"
+          " Xi :",mydict["Xi"],"\n",
+          "hxi:",mydict["hxi"],"\n",
+          "fxi:",mydict["fxi"],"\n",
+          "Hxi:",mydict["Hxi"],"\n",
+          "Fxi:",mydict["Fxi"],"\n"
+          )
+    exit = input("Enter zum beenden")
     return True
-
 
 main()
 

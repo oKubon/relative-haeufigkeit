@@ -11,95 +11,130 @@ fxi = relative Häufigkeit
 Hxi = kumulierte Häufigkeit
 Fxi = relative kummulierte Häufigkeit
 """
-#testcomment
+
 import pprint
 import pandas as pd
 
-
-# Einlesen von Daten
-def data(): 
-    data = input("Eingabe\n")
-    data = sorted(data) # Sortierung von Datensätzen
-    data = {"Xi":data} # Umwandlung in ein Dictionary
-    return data
-
-
-# Funktion zum entfernen von doppelten Werten in einer Lste
-def clean_list(data,name):
-    clean_list = []
-    counted =[]
-    for i in data[name]:
-        if i not in counted:
-            clean_list.append(i)
-            counted.append(i)
-    return clean_list
-
-
-# h(xi) - absolute Häufigkeit
-def hxi(data): 
-    hxi_list = [] # Liste mit hxi Werten die später zur Hauptliste geupdatet wird
-    counted = [] # Liste mit allen Zahlen die schon gezählt wurden
-    for i in data["Xi"]: # Zählt hoch wie oft eine Zahl vorhanden ist
-        if i not in counted:
-            count = data["Xi"].count(i)
-            counted.append(i)
-            hxi_list.append(count)
-    hxi = {"hxi":hxi_list} # Umwandlung der Liste in ein Dict
-    data = {"Xi":clean_list(data,"Xi")} # Säuberung doppelter Einträge in den Daten
-    data.update(hxi) # Zusammenfügung der hxi Daten mit den Xi Daten
-    return data
-
-
-# f(xi) - relative Häufigkeit
-def fxi(data):
-    fxi_list = []
-    hxi_sum = sum(data["hxi"]) # Summe der absoluten Häufigkeiten h(xi)
-    for i in data["hxi"]:
-        result = round(i / hxi_sum,2)
-        fxi_list.append(result)
-    fxi = {"fxi":fxi_list}
-    data.update(fxi)
-    return data
-
-
-# H(xi) - kummulierte Häufigkeit
-def Hxi(data):
-    Hxi_list = []
-    n = 0
-    for i in data["hxi"]:
-       n += i 
-       Hxi_list.append(n)
-    Hxi = {"Hxi":Hxi_list}
-    data.update(Hxi)
-    return data
-
-
-# F(xi) - relative kumulierte Häufigkeit
-def Fxi(data):
-    Fxi_list = []
-    hxi_sum = sum(data["hxi"])    
-    for i in data["Hxi"]:
-        result = round(i / hxi_sum,2)
-        Fxi_list.append(result)
-    Fxi = {"Fxi":Fxi_list}
-    data.update(Fxi)
-    return data
-
-
-#Hauptfunktion
-def main():
-    # Speichert die ausgeführten Funktionen in mydict
-    mydict = Fxi(Hxi(fxi(hxi(data()))))
-    print("\nErgebnis:\n"
+class RelativeHaeufigkeit:
+    def __init__():
+        return 
+    
+    user_input = input("Eingabe\n")
+    data = {"Xi":sorted(user_input)}
+    print(data)
+    
+    def main(self):
+        mydict = Fxi(Hxi(fxi(hxi(data()))))figkeit()
+        print("\nErgebnis:\n"
           " Xi :",mydict["Xi"],"\n",
           "hxi:",mydict["hxi"],"\n",
-          "fxi:",mydict["fxi"],"\n",
           "Hxi:",mydict["Hxi"],"\n",
-          "Fxi:",mydict["Fxi"],"\n"
-          )
-    exit = input("Enter zum beenden")
+          "fxi:",mydict["fxi"],"\n",
+          "Fxi:",mydict["Fxi"],"\n")
+        eingabe = input("Enter zum beenden")
+        return
+    
+    
+    #main()
+    
+    
+    
+    # Funktion zum entfernen von doppelten Werten in einer Lste
+    def clean_list(data,name):
+        clean_list = []
+        counted =[]
+        for i in data[name]:
+            if i not in counted:
+                clean_list.append(i)
+                counted.append(i)
+        return clean_list
+    
+    
+    # h(xi) - absolute Häufigkeit
+    def hxi(data): 
+        hxi_list = [] # Liste mit hxi Werten die später zur Hauptliste geupdatet wird
+        counted = [] # Liste mit allen Zahlen die schon gezählt wurden
+        for i in data["Xi"]: # Zählt hoch wie oft eine Zahl vorhanden ist
+            if i not in counted:
+                count = data["Xi"].count(i)
+                counted.append(i)
+                hxi_list.append(count)
+        hxi = {"hxi":hxi_list} # Umwandlung der Liste in ein Dict
+        data = {"Xi":clean_list(data,"Xi")} # Säuberung doppelter Einträge in den Daten
+        data.update(hxi) # Zusammenfügung der hxi Daten mit den Xi Daten
+        return data
+    
+    
+    # f(xi) - relative Häufigkeit
+    def fxi(data):
+        fxi_list = []
+        hxi_sum = sum(data["hxi"]) # Summe der absoluten Häufigkeiten h(xi)
+        for i in data["hxi"]:
+            result = round(i / hxi_sum,2)
+            fxi_list.append(result)
+        fxi = {"fxi":fxi_list}
+        data.update(fxi)
+        return data
+    
+    
+    # H(xi) - kummulierte Häufigkeit
+    def Hxi(data):
+        Hxi_list = []
+        n = 0
+        for i in data["hxi"]:
+           n += i 
+           Hxi_list.append(n)
+        Hxi = {"Hxi":Hxi_list}
+        data.update(Hxi)
+        return data
+    
+    
+    # F(xi) - relative kumulierte Häufigkeit
+    def Fxi(data):
+        Fxi_list = []
+        hxi_sum = sum(data["hxi"])    
+        for i in data["Hxi"]:
+            result = round(i / hxi_sum,2)
+            Fxi_list.append(result)
+        Fxi = {"Fxi":Fxi_list}
+        data.update(Fxi)
+        return data
+        
+        """
+    
+    
+print("Was möchten Sie ausrechen?")
+print("1 = relative Häufigkeit")
+print("2 = Exit\n")
+auswahl = input("Auswahl: ")
+
+if auswahl == "1":
+    print(RelativeHaeufigkeit())
+elif auswahl == "2":
+    print("Programm wurde beendet.")
+
+
+
+
+
+
+    
+    
+'''
+data = sorted(data) # Sortierung von Datensätzen
+data = {"Xi":data} # Umwandlung in ein Dictionary
+
+print("hello world")
+def main():
+    mydict = Fxi(Hxi(fxi(hxi(data())))).relativeHaeufigkeit()
+    print("\nErgebnis:\n"
+      " Xi :",mydict["Xi"],"\n",
+      "hxi:",mydict["hxi"],"\n",
+      "Hxi:",mydict["Hxi"],"\n",
+      "fxi:",mydict["fxi"],"\n",
+      "Fxi:",mydict["Fxi"],"\n")
+    eingabe = input("Enter zum beenden")
     return True
 
 main()
-
-
+'''

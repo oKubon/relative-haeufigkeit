@@ -1,5 +1,6 @@
 import os
 from collections import Counter
+import math
 clear = lambda: os.system('cls')
 
 # Klasse aller Operationen die der Taschenrechner durchführen kann
@@ -61,6 +62,23 @@ class Calculator():
                 Fxi_list.append(result)
             return Fxi_list
      
+    class Medianwert():
+        def __init__(self, user_input):
+            self.data = user_input
+            
+        def Median(self):
+            lis = self.data
+            leng = len(self.data)
+            
+            if (leng % 2) != 0:
+                loc = int((leng) / 2)
+                median = lis[loc]
+            else:
+                median = []
+                loc1 = int((leng / 2) - 1)
+                loc2 = int(((leng / 2) + 1) - 1)
+                median = [lis[loc1],lis[loc2]]
+            return median
         
 # Überschrift vom Programm
 def header():
@@ -80,7 +98,7 @@ def ConvertToInt(user_input):
 def choice1():
     clear()
     print("### Taschenrechner9000 ###\n")
-    print("# Startseite ## Einfache Berechnungen\n")
+    print(" Einfache Berechnungen\n")
     print("Geben Sie zwei Zahlen ein:\n")
     a = int(input("Eingabe: "))
     b = int(input("Eingabe: "))
@@ -105,8 +123,8 @@ def choice1():
 def choice2():
     clear()
     header()
-    print("# Startseite ## Relative Häufigkeiten\n")
-    print("Geben Sie mit einem Komma getrennte Zahlenliste ein:  Beispiel: 4,5,12,23,...\n")
+    print(" Relative Häufigkeiten\n")
+    print("Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\nBeispiel: 4,5,12,23,..,..\n")
     user_input = input("Eingabe: ")
     obj = Calculator.RelativeHaufigkeit(ConvertToInt(user_input))
     print("\nErgebnis:\n")
@@ -118,19 +136,32 @@ def choice2():
           )
     return
 
+# Medianwert (Zentralwert)
+def choice3():
+    clear()
+    header()
+    print(" Medianwert\n")
+    user_input = input("Eingabe: ")
+    obj = Calculator.Medianwert(ConvertToInt(user_input))
+    print("\nMedian: ",obj.Median())
+    return
+
 # Hauptfunktion
 def main():
     clear()
     header()
-    print("# Startseite #\n")
+    print(" Startseite \n")
     print(" Was möchten Sie berechnen?\n")
     print(" 1. Einfache Berechnungen(+-/*)")
     print(" 2. Relative Häufigkeiten")
+    print(" 3. Median")
     choice=input("\n Eingabe: ")
     if choice == "1":
         choice1()
     elif choice == "2":
         choice2()
+    elif choice == "3":
+        choice3()
     input("\nMit Enter beenden..")
     return True
 

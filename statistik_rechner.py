@@ -1,6 +1,7 @@
 import os
 from collections import Counter
 import math
+import sys
 clear = lambda: os.system('cls')
 
 # Klasse aller Operationen die der Taschenrechner durchführen kann
@@ -67,7 +68,7 @@ class Calculator():
             self.data = user_input
             
         def Median(self):
-            lis = self.data
+            lis = sorted(self.data)
             leng = len(self.data)
             
             if (leng % 2) != 0:
@@ -79,44 +80,29 @@ class Calculator():
                 loc2 = int(((leng / 2) + 1) - 1)
                 median = [lis[loc1],lis[loc2]]
             return median
-        
-# Überschrift vom Programm
-def header():
-    print("### Taschenrechner9000 ### Autor: Oliver Kubon ###")
-    print("##################################################\n")
-    return
-
-# Convertet einen string mit zahlen und komma in int um
-def ConvertToInt(user_input):
-    list = user_input.split (",")
-    li = []
-    for i in list:
-        li.append(int(i))
-    return li  
-        
+             
 # Einfache Berechnung
 def choice1():
     clear()
-    print("### Taschenrechner9000 ###\n")
-    print(" Einfache Berechnungen\n")
-    print("Geben Sie zwei Zahlen ein:\n")
-    a = int(input("Eingabe: "))
-    b = int(input("Eingabe: "))
+    header()
+    print(" Geben Sie zwei Zahlen ein:\n")
+    a = int(input(" Eingabe: "))
+    b = int(input(" Eingabe: "))
     obj = Calculator.PlusMinus(a,b)
-    print("\nWas möchten Sie berechnen?\n")
-    print("1. Add")
-    print("2. Sub")
-    print("3. Mul")
-    print("4. Div")
-    choice=int(input("\nEingabe: "))
+    print("\n Was möchten Sie berechnen?\n")
+    print(" 1. Add")
+    print(" 2. Sub")
+    print(" 3. Mul")
+    print(" 4. Div")
+    choice=int(input("\n Eingabe: "))
     if choice==1:
-        print("\nErgebnis: ",obj.add())
+        print("\n Ergebnis:",obj.add())
     elif choice==2:
-        print("\nErgebnis: ",obj.sub())
+        print("\n Ergebnis:",obj.sub())
     elif choice==3:
-        print("\nErgebnis: ",obj.mul())
+        print("\n Ergebnis:",obj.mul())
     elif choice==4:
-        print("\nErgebnis: ",round(obj.div(),2))
+        print("\n Ergebnis:",round(obj.div(),2))
     return
 
 # Relative Häufigkeit
@@ -124,10 +110,10 @@ def choice2():
     clear()
     header()
     print(" Relative Häufigkeiten\n")
-    print("Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\nBeispiel: 4,5,12,23,..,..\n")
-    user_input = input("Eingabe: ")
+    print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n Beispiel: 4,5,12,23,..,..\n")
+    user_input = input(" Eingabe: ")
     obj = Calculator.RelativeHaufigkeit(ConvertToInt(user_input))
-    print("\nErgebnis:\n")
+    print("\n Ergebnis:\n")
     print(" Xi :",obj.Xi(),"\n",
           "hxi:",obj.hxi(),"\n",
           "fxi:",obj.fxi(obj.hxi()),"\n",
@@ -141,20 +127,48 @@ def choice3():
     clear()
     header()
     print(" Medianwert\n")
-    user_input = input("Eingabe: ")
+    user_input = input(" Eingabe: ")
     obj = Calculator.Medianwert(ConvertToInt(user_input))
-    print("\nMedian: ",obj.Median())
+    print("\n Median: ",obj.Median())
     return
 
-# Hauptfunktion
-def main():
-    clear()
-    header()
+# Convertet einen string mit zahlen und komma in int um
+def ConvertToInt(user_input):
+    list = user_input.split (",")
+    li = []
+    for i in list:
+        li.append(int(i))
+    return li 
+
+# Überschrift vom Programm
+def header():
+    print("### PythonCalculator9000 ### Autor: Oliver Kubon ###")
+    print("##################################################\n")
+    return
+
+# Beinhaltet Auwahlmöglichkeiten
+def body():
     print(" Startseite \n")
     print(" Was möchten Sie berechnen?\n")
     print(" 1. Einfache Berechnungen(+-/*)")
     print(" 2. Relative Häufigkeiten")
-    print(" 3. Median")
+    print(" 3. Medianwert")
+    print(" 4. Arithmetisches Mittel")
+    return
+
+# Exit
+def footer():
+    global running
+    uInput = input("\n PythonCalculator9000 neu starten? [y/n]")
+    if uInput == "n":
+        sys.exit(0)
+        return 
+    elif uInput == "y":
+        return True
+        
+
+# Haendelt den allgemeinen User Input
+def user_input():
     choice=input("\n Eingabe: ")
     if choice == "1":
         choice1()
@@ -162,11 +176,18 @@ def main():
         choice2()
     elif choice == "3":
         choice3()
-    input("\nMit Enter beenden..")
-    return True
-
+    elif choice == "4":
+        choice4()
+    return
+    
+# Hauptfunktion
+def main():
+    while True:
+        clear()
+        header()
+        body()
+        user_input()
+        footer()
+    return
 
 main()
-        
-        
-        

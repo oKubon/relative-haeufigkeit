@@ -119,7 +119,8 @@ class Main():
         def option1(self):
             clear()
             self.header.header()
-            print(" Relative Häufigkeiten\n")
+            print(" Relative Häufigkeiten")
+            print(" ####################\n")
             print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
                   " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
                   "\n Beispiel: 4,4,5,12,23,128,12,13\n")
@@ -184,7 +185,8 @@ class Main():
         
         # Beinhaltet Auwahlmöglichkeiten
         def body(self):
-            print(" Startseite \n")
+            print(" Startseite")
+            print(" ##########\n")
             print(" Was möchten Sie berechnen?\n")
             print(" 1. Relative Häufigkeiten")
             print(" 2. Medianwert")

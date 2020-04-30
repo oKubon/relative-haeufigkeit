@@ -72,8 +72,8 @@ class Main():
             
         # Berechnung des Medianwerts    
         class Medianwert():
-            def __init__(self, user_input):
-                self.data = user_input
+            def __init__(self, uInput):
+                self.data = uInput
                 
             def Median(self):
                 lis = sorted(self.data)
@@ -89,6 +89,26 @@ class Main():
                     median = [lis[loc1],lis[loc2]]
                 return median
             
+        # Berechnung des Aritmetischen Mittels inkl. Gewogenes
+        class AM():
+            def __init__(self,ls1,ls2):
+                self.ls1 = ls1
+                self.ls2 = ls2
+            
+            # Berechnug Arithmetisches Mittel (AM)
+            def AMcalc(self):
+               result = int(sum(self.ls1)/len(self.ls1))
+               return result
+            
+            # Berechnug Gewogenes arithmetisches Mittel (GAM)
+            def GAMcalc(self):
+                x = 0
+                for i in range (0, len(self.ls1)):
+                    x += self.ls1[i]*self.ls2[i]
+                        
+                result = round(float(x / sum(self.ls1)),2)
+                return result
+            
     # Beinhaltet für jede mögliche Option, die der User eingeben kann, ein Skript.
     # Skripte beeinhalten Option-Spezifische Inputs
     class Options():
@@ -102,10 +122,10 @@ class Main():
             print(" Relative Häufigkeiten\n")
             print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
                   " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
-                  "\n Beispiel: 4,4,5,12,23,128,12,13,..\n")
+                  "\n Beispiel: 4,4,5,12,23,128,12,13\n")
             uInput = input(" Eingabe: ")
-            conversion = Main.Operations.Convert(uInput)
-            obj = Main.Operations.RelativeHaufigkeit(conversion.StringListToIntList())
+            convert = Main.Operations.Convert(uInput)
+            obj = Main.Operations.RelativeHaufigkeit(convert.StringListToIntList())
             print("\n Ergebnis:\n")
             print(" Xi :",obj.Xi(),"\n",
                   "hxi:",obj.hxi(),"\n",
@@ -122,14 +142,35 @@ class Main():
             print(" Medianwert\n")
             print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
                   " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
-                  "\n Beispiel: 1,2,3,12,8,10,..\n")
+                  "\n Beispiel: 1,2,3,12,8,10\n")
             uInput = input(" Eingabe: ")
-            conversion = Main.Operations.Convert(uInput)
-            
-            obj = Main.Operations.Medianwert(conversion.StringListToIntList())
+            convert = Main.Operations.Convert(uInput)
+            obj = Main.Operations.Medianwert(convert.StringListToIntList())
             print("\n Median: ",obj.Median())
             return
     
+        # Arithmetisches Mittel
+        def option3(self):
+            clear()
+            self.header.header()
+            print(" Arithmetisches Mittel\n")
+            print(" Geben sie zwei Listen mit beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                  " Hinweis! --> Achten Sie darauf, dass beide Listen gleich viele Einträge haben!\n"
+                  "              Listen stehen in Beziehung zueinander."
+                  "\n Beispiel:\n"
+                  "\n Liste 1: 20,25,28\n"
+                  " Liste 2: 4,3,6\n")
+            uInput1 = input(" Eingabe: ")
+            uInput2 = input(" Eingabe: ")
+            convert1 = Main.Operations.Convert(uInput1)
+            convert2 = Main.Operations.Convert(uInput2)
+            ls1 = convert1.StringListToIntList()
+            ls2 = convert2.StringListToIntList()
+            obj = Main.Operations.AM(ls1,ls2)
+            print("\n Arithmetisches Mittel (AM):",obj.AMcalc())
+            print("\n Gewogenes arithmetisches Mittel (GAM):",obj.GAMcalc())
+            return
+        
     # Klasse mit mit allen notwendigen Funktionen für den Body des Programms
     class BodyFunctions():
         def __init__(self):
@@ -147,7 +188,7 @@ class Main():
             print(" Was möchten Sie berechnen?\n")
             print(" 1. Relative Häufigkeiten")
             print(" 2. Medianwert")
-            print(" 3. Arithmetisches Mittel")
+            print(" 3. (Gewogenes) Arithmetisches Mittel")
             return
         
         # Haendelt den allgemeinen User Input

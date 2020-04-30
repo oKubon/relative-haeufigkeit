@@ -1,193 +1,185 @@
 import os
-from collections import Counter
-import math
 import sys
+from collections import Counter
 clear = lambda: os.system('cls')
 
-# Klasse aller Operationen die der Taschenrechner durchführen kann
-class Calculator():
-    class PlusMinus(): 
-        def __init__(self,a,b):
-            self.a = a
-            self.b = b
-        def add(self):
-            return self.a+self.b
-        def mul(self):
-            return self.a*self.b
-        def div(self):
-            return self.a/self.b
-        def sub(self):
-            return self.a-self.b
-       
-    class RelativeHaufigkeit():
-        def __init__(self,user_input):
-            self.data = user_input
+class Main():
+
+    # Klasse aller Operationen die der Taschenrechner durchführen kann
+    class Operations():
+        def __init__(self,uInput):
+            self.uInput = uInput
+            return
+        
+        # Klasse um User Input unterschiedlich Formatieren zu können
+        class Convert():
+            def __init__(self,uInput):
+                self.data = uInput
+                return
             
-        # Liste der Eingabe ohne doppelte Werte
-        def Xi(self):
-            data = {"Xi" : sorted(self.data)}
-            return list(dict.fromkeys(data["Xi"]))
+            # Convertierung string list to list with int items
+            def StringListToIntList(self):
+                list = self.data.split(",")
+                li = []
+                for i in list:
+                    li.append(int(i))
+                return li
         
-        # absolute Häufigkeit
-        def hxi(self):
-            data = {"hxi":dict(Counter(sorted((self.data))))}
-            hxi_list = []
-            for value in data["hxi"]:
-                hxi_list.append(data["hxi"][value])
-            return hxi_list
-        
-        # relative Häufigkeit
-        def fxi(self,hxi_list):
-           fxi_list = []
-           hxi_sum = sum(hxi_list)
-           for i in hxi_list:
-               result = round(i / hxi_sum,2)
-               fxi_list.append(result)
-           return fxi_list
-       
-        # kumulierte Häufigkeit
-        def Hxi(self,hxi_list):
-            Hxi_list = []
-            value = 0
-            for i in range(0, len(hxi_list)):
-                value += hxi_list[i]
-                Hxi_list.append(value)
-            return Hxi_list
-        
-        # relative kummulierte Häufigkeit
-        def Fxi(self,Hxi_list):
-            Fxi_list = []
-            hxi_sum = Hxi_list[-1]
-            for i in Hxi_list:
-                result = round(i / hxi_sum,2)
-                Fxi_list.append(result)
-            return Fxi_list
-     
-    class Medianwert():
-        def __init__(self, user_input):
-            self.data = user_input
+        # Berechnung der relativen Haeufigkeit
+        class RelativeHaufigkeit():
+            def __init__(self,uInput):
+                self.data = uInput
+                
+            # Liste der Eingabe ohne doppelte Werte
+            def Xi(self):
+                data = {"Xi" : sorted(self.data)}
+                return list(dict.fromkeys(data["Xi"]))
             
-        def Median(self):
-            lis = sorted(self.data)
-            leng = len(self.data)
+            # absolute Häufigkeit
+            def hxi(self):
+                data = {"hxi":dict(Counter(sorted((self.data))))}
+                hxi_list = []
+                for value in data["hxi"]:
+                    hxi_list.append(data["hxi"][value])
+                return hxi_list
             
-            if (leng % 2) != 0:
-                loc = int((leng) / 2)
-                median = lis[loc]
-            else:
-                median = []
-                loc1 = int((leng / 2) - 1)
-                loc2 = int(((leng / 2) + 1) - 1)
-                median = [lis[loc1],lis[loc2]]
-            return median
-             
-# Einfache Berechnung
-def choice1():
-    clear()
-    header()
-    print(" Geben Sie zwei Zahlen ein:\n")
-    a = int(input(" Eingabe: "))
-    b = int(input(" Eingabe: "))
-    obj = Calculator.PlusMinus(a,b)
-    print("\n Was möchten Sie berechnen?\n")
-    print(" 1. Add")
-    print(" 2. Sub")
-    print(" 3. Mul")
-    print(" 4. Div")
-    choice=int(input("\n Eingabe: "))
-    if choice==1:
-        print("\n Ergebnis:",obj.add())
-    elif choice==2:
-        print("\n Ergebnis:",obj.sub())
-    elif choice==3:
-        print("\n Ergebnis:",obj.mul())
-    elif choice==4:
-        print("\n Ergebnis:",round(obj.div(),2))
-    return
-
-# Relative Häufigkeit
-def choice2():
-    clear()
-    header()
-    print(" Relative Häufigkeiten\n")
-    print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n Beispiel: 4,5,12,23,..,..\n")
-    user_input = input(" Eingabe: ")
-    obj = Calculator.RelativeHaufigkeit(ConvertToInt(user_input))
-    print("\n Ergebnis:\n")
-    print(" Xi :",obj.Xi(),"\n",
-          "hxi:",obj.hxi(),"\n",
-          "fxi:",obj.fxi(obj.hxi()),"\n",
-          "Hxi:",obj.Hxi(obj.hxi()),"\n",
-          "Fxi:",obj.Fxi(obj.Hxi(obj.hxi()))
-          )
-    return
-
-# Medianwert (Zentralwert)
-def choice3():
-    clear()
-    header()
-    print(" Medianwert\n")
-    user_input = input(" Eingabe: ")
-    obj = Calculator.Medianwert(ConvertToInt(user_input))
-    print("\n Median: ",obj.Median())
-    return
-
-# Convertet einen string mit zahlen und komma in int um
-def ConvertToInt(user_input):
-    list = user_input.split (",")
-    li = []
-    for i in list:
-        li.append(int(i))
-    return li 
-
-# Überschrift vom Programm
-def header():
-    print("### PythonCalculator9000 ### Autor: Oliver Kubon ###")
-    print("##################################################\n")
-    return
-
-# Beinhaltet Auwahlmöglichkeiten
-def body():
-    print(" Startseite \n")
-    print(" Was möchten Sie berechnen?\n")
-    print(" 1. Einfache Berechnungen(+-/*)")
-    print(" 2. Relative Häufigkeiten")
-    print(" 3. Medianwert")
-    print(" 4. Arithmetisches Mittel")
-    return
-
-# Exit
-def footer():
-    global running
-    uInput = input("\n PythonCalculator9000 neu starten? [y/n]")
-    if uInput == "n":
-        sys.exit(0)
-        return 
-    elif uInput == "y":
-        return True
+            # relative Häufigkeit
+            def fxi(self,hxi_list):
+               fxi_list = []
+               hxi_sum = sum(hxi_list)
+               for i in hxi_list:
+                   result = round(i / hxi_sum,2)
+                   fxi_list.append(result)
+               return fxi_list
+           
+            # kumulierte Häufigkeit
+            def Hxi(self,hxi_list):
+                Hxi_list = []
+                value = 0
+                for i in range(0, len(hxi_list)):
+                    value += hxi_list[i]
+                    Hxi_list.append(value)
+                return Hxi_list
+            
+            # relative kummulierte Häufigkeit
+            def Fxi(self,Hxi_list):
+                Fxi_list = []
+                hxi_sum = Hxi_list[-1]
+                for i in Hxi_list:
+                    result = round(i / hxi_sum,2)
+                    Fxi_list.append(result)
+                return Fxi_list
+            
+        # Berechnung des Medianwerts    
+        class Medianwert():
+            def __init__(self, user_input):
+                self.data = user_input
+                
+            def Median(self):
+                lis = sorted(self.data)
+                leng = len(self.data)
+                
+                if (leng % 2) != 0:
+                    loc = int((leng) / 2)
+                    median = lis[loc]
+                else:
+                    median = []
+                    loc1 = int((leng / 2) - 1)
+                    loc2 = int(((leng / 2) + 1) - 1)
+                    median = [lis[loc1],lis[loc2]]
+                return median
+            
+    # Beinhaltet für jede mögliche Option, die der User eingeben kann, ein Skript.
+    # Skripte beeinhalten Option-Spezifische Inputs
+    class Options():
+        def __init__(self):
+            self.header = Main.BodyFunctions()
         
-
-# Haendelt den allgemeinen User Input
-def user_input():
-    choice=input("\n Eingabe: ")
-    if choice == "1":
-        choice1()
-    elif choice == "2":
-        choice2()
-    elif choice == "3":
-        choice3()
-    elif choice == "4":
-        choice4()
-    return
+        # Relative Häufigkeit
+        def option1(self):
+            clear()
+            self.header.header()
+            print(" Relative Häufigkeiten\n")
+            print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                  " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
+                  "\n Beispiel: 4,4,5,12,23,128,12,13,..\n")
+            uInput = input(" Eingabe: ")
+            conversion = Main.Operations.Convert(uInput)
+            obj = Main.Operations.RelativeHaufigkeit(conversion.StringListToIntList())
+            print("\n Ergebnis:\n")
+            print(" Xi :",obj.Xi(),"\n",
+                  "hxi:",obj.hxi(),"\n",
+                  "fxi:",obj.fxi(obj.hxi()),"\n",
+                  "Hxi:",obj.Hxi(obj.hxi()),"\n",
+                  "Fxi:",obj.Fxi(obj.Hxi(obj.hxi()))
+                  )
+            return
     
-# Hauptfunktion
-def main():
-    while True:
-        clear()
-        header()
-        body()
-        user_input()
-        footer()
-    return
-
-main()
+        # Medianwert (Zentralwert)
+        def option2(self):
+            clear()
+            self.header.header()
+            print(" Medianwert\n")
+            print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                  " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
+                  "\n Beispiel: 1,2,3,12,8,10,..\n")
+            uInput = input(" Eingabe: ")
+            conversion = Main.Operations.Convert(uInput)
+            
+            obj = Main.Operations.Medianwert(conversion.StringListToIntList())
+            print("\n Median: ",obj.Median())
+            return
+    
+    # Klasse mit mit allen notwendigen Funktionen für den Body des Programms
+    class BodyFunctions():
+        def __init__(self):
+            return
+        
+        # Überschrift vom Programm
+        def header(self):
+            print("### Statistic Calculator ### © Oliver Kubon ###")
+            print("###############################################\n")
+            return
+        
+        # Beinhaltet Auwahlmöglichkeiten
+        def body(self):
+            print(" Startseite \n")
+            print(" Was möchten Sie berechnen?\n")
+            print(" 1. Relative Häufigkeiten")
+            print(" 2. Medianwert")
+            print(" 3. Arithmetisches Mittel")
+            return
+        
+        # Haendelt den allgemeinen User Input
+        def user_input(self):
+            choice=input("\n Eingabe: ")
+            take = Main.Options()
+            if choice == "1":
+                take.option1()
+            elif choice == "2":
+                take.option2()
+            elif choice == "3":
+                take.option3()
+            return
+        
+        # Exit
+        def footer(self):
+            uInput = input("\n Neu starten? [y/n]")
+            if uInput == "n":
+                sys.exit(0)
+                return 
+            elif uInput == "y":
+                return True          
+        
+    # Body Klasse - Mainfunction
+    class Body():
+        def __init__(self):
+            Bodyfunction = Main.BodyFunctions()
+            while True:
+                clear()
+                Bodyfunction.header()
+                Bodyfunction.body()
+                Bodyfunction.user_input()
+                Bodyfunction.footer()
+        
+Main.Body()

@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 18 13:20:54 2020
+
+@author: Oliver Kubon
+
+Dieses Programm beinhaltet mehrere Optionen, um Statistische Werte auszurechnen. 
+Folgende Berechnungen sind derzeit möglich:
+- Realtive Häufigkeit
+- Medianwert
+- Arithmetisches Mittel (AM) und gewogenes Arithmetisches Mittel (GAM)
+
+"""
 import os
 import sys
 from collections import Counter
@@ -29,6 +42,27 @@ class Main():
         class RelativeHaufigkeit():
             def __init__(self,uInput):
                 self.data = uInput
+                self.BodyFunction = Main.BodyFunctions()
+                
+            def Main(self):
+                clear()
+                self.BodyFunction.header()
+                print(" Relative Häufigkeiten")
+                print(" #####################\n")
+                print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                      " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
+                      "\n Beispiel: 4,4,5,12,23,128,12,13\n")
+                uInput = input(" Eingabe: ")
+                convert = Main.Operations.Convert(uInput)
+                obj = Main.Operations.RelativeHaufigkeit(convert.StringListToIntList())
+                print("\n Ergebnis:\n")
+                print(" Xi :",obj.Xi(),"\n",
+                      "hxi:",obj.hxi(),"\n",
+                      "fxi:",obj.fxi(obj.hxi()),"\n",
+                      "Hxi:",obj.Hxi(obj.hxi()),"\n",
+                      "Fxi:",obj.Fxi(obj.Hxi(obj.hxi()))
+                      )
+                return
                 
             # Liste der Eingabe ohne doppelte Werte
             def Xi(self):
@@ -74,6 +108,22 @@ class Main():
         class Medianwert():
             def __init__(self, uInput):
                 self.data = uInput
+                self.BodyFunction = Main.BodyFunctions()
+                
+            # Medianwert (Zentralwert)
+            def Main(self):
+                clear()
+                self.BodyFunction.header()
+                print(" Medianwert")
+                print(" ##########\n")
+                print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                      " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
+                      "\n Beispiel: 1,2,3,12,8,10\n")
+                uInput = input(" Eingabe: ")
+                convert = Main.Operations.Convert(uInput)
+                obj = Main.Operations.Medianwert(convert.StringListToIntList())
+                print("\n Median: ",obj.Median())
+                return
                 
             def Median(self):
                 lis = sorted(self.data)
@@ -89,16 +139,60 @@ class Main():
                     median = [lis[loc1],lis[loc2]]
                 return median
             
-        # Berechnung des Aritmetischen Mittels inkl. Gewogenes
+        # Berechnung des Aritmetischen Mittels (AM)
         class AM():
-            def __init__(self,ls1,ls2):
+            def __init__(self,ls1):
                 self.ls1 = ls1
-                self.ls2 = ls2
+                self.BodyFunction = Main.BodyFunctions()
+            
+            
+            def Main(self):
+                clear()
+                self.BodyFunction.header()
+                print(" Arithmetisches Mittel")
+                print(" ######################\n")
+                print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                      "\n Beispiel: 20,25,28\n")
+                uInput1 = input(" Eingabe: ")
+                convert1 = Main.Operations.Convert(uInput1)
+                self.ls1 = convert1.StringListToIntList()
+                obj = Main.Operations.AM(self.ls1)
+                print("\n Arithmetisches Mittel (AM):",obj.AMcalc())
+                return
             
             # Berechnug Arithmetisches Mittel (AM)
             def AMcalc(self):
                result = int(sum(self.ls1)/len(self.ls1))
                return result
+    
+        # Berechnung des gewogenem Aritmetischen Mittels (GAM)
+        class GAM():
+            def __init__(self,ls1,ls2):
+                self.ls1 = ls1
+                self.ls2 = ls2
+                self.BodyFunction = Main.BodyFunctions()
+                
+            # GAM Main
+            def Main(self):
+                clear()
+                self.BodyFunction.header()
+                print(" Gewogenes Arithmetisches Mittel")
+                print(" ######################\n")
+                print(" Geben sie zwei Listen mit beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                      " Hinweis! --> Achten Sie darauf, dass beide Listen gleich viele Einträge haben!\n"
+                      "              Listen stehen in Beziehung zueinander."
+                      "\n Beispiel:\n"
+                      "\n Liste 1: 20,25,28\n"
+                      " Liste 2: 4,3,6\n")
+                uInput1 = input(" Eingabe: ")
+                uInput2 = input(" Eingabe: ")
+                convert1 = Main.Operations.Convert(uInput1)
+                convert2 = Main.Operations.Convert(uInput2)
+                self.ls1 = convert1.StringListToIntList()
+                self.ls2 = convert2.StringListToIntList()
+                obj = Main.Operations.GAM(self.ls1,self.ls2)
+                print("\n Gewogenes arithmetisches Mittel (GAM):",obj.GAMcalc())
+                return
             
             # Berechnug Gewogenes arithmetisches Mittel (GAM)
             def GAMcalc(self):
@@ -109,68 +203,30 @@ class Main():
                 result = round(float(x / sum(self.ls1)),2)
                 return result
             
-    # Beinhaltet für jede mögliche Option, die der User eingeben kann, ein Skript.
-    # Skripte beeinhalten Option-Spezifische Inputs
-    class Options():
-        def __init__(self):
-            self.header = Main.BodyFunctions()
-        
-        # Relative Häufigkeit
-        def option1(self):
-            clear()
-            self.header.header()
-            print(" Relative Häufigkeiten")
-            print(" ####################\n")
-            print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
-                  " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
-                  "\n Beispiel: 4,4,5,12,23,128,12,13\n")
-            uInput = input(" Eingabe: ")
-            convert = Main.Operations.Convert(uInput)
-            obj = Main.Operations.RelativeHaufigkeit(convert.StringListToIntList())
-            print("\n Ergebnis:\n")
-            print(" Xi :",obj.Xi(),"\n",
-                  "hxi:",obj.hxi(),"\n",
-                  "fxi:",obj.fxi(obj.hxi()),"\n",
-                  "Hxi:",obj.Hxi(obj.hxi()),"\n",
-                  "Fxi:",obj.Fxi(obj.Hxi(obj.hxi()))
-                  )
-            return
-    
-        # Medianwert (Zentralwert)
-        def option2(self):
-            clear()
-            self.header.header()
-            print(" Medianwert\n")
-            print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
-                  " Reihenfolge und doppelte Einträge werden automatisch in das korrekte Format verarbeitet.\n"
-                  "\n Beispiel: 1,2,3,12,8,10\n")
-            uInput = input(" Eingabe: ")
-            convert = Main.Operations.Convert(uInput)
-            obj = Main.Operations.Medianwert(convert.StringListToIntList())
-            print("\n Median: ",obj.Median())
-            return
-    
-        # Arithmetisches Mittel
-        def option3(self):
-            clear()
-            self.header.header()
-            print(" Arithmetisches Mittel\n")
-            print(" Geben sie zwei Listen mit beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
-                  " Hinweis! --> Achten Sie darauf, dass beide Listen gleich viele Einträge haben!\n"
-                  "              Listen stehen in Beziehung zueinander."
-                  "\n Beispiel:\n"
-                  "\n Liste 1: 20,25,28\n"
-                  " Liste 2: 4,3,6\n")
-            uInput1 = input(" Eingabe: ")
-            uInput2 = input(" Eingabe: ")
-            convert1 = Main.Operations.Convert(uInput1)
-            convert2 = Main.Operations.Convert(uInput2)
-            ls1 = convert1.StringListToIntList()
-            ls2 = convert2.StringListToIntList()
-            obj = Main.Operations.AM(ls1,ls2)
-            print("\n Arithmetisches Mittel (AM):",obj.AMcalc())
-            print("\n Gewogenes arithmetisches Mittel (GAM):",obj.GAMcalc())
-            return
+        # Berechnung des geometrischen Mittels (GM)
+        class GM():
+            def __init__(self,uInput):
+                self.data = uInput
+                self.BodyFunction = Main.BodyFunctions()
+                
+            def Main(self):
+                clear()
+                self.BodyFunction.header()
+                print(" Geometrisches Mittel")
+                print(" ######################\n")
+                print(" Geben sie beliebig viele Zahlen ein, die mit einem , getrennt sind:\n"
+                      " \nAchten Sie dabei auf die richtige Komma und Punkt setzung!\n"
+                      "\n Beispiel: 120000,138000,165600,157320,188784,235980\n")
+                uInput = input(" Eingabe: ")
+                convert = Main.Operations.Convert(uInput)
+                self.data = convert.StringListToIntList()
+                obj = Main.Operations.GM(self.data)
+                print("\n Geometrisches Mittel (GM):",obj.GMcalc())
+                return
+            
+            def GMcalc(self):
+                data = {"Data" : sorted(self.data)}
+                return data
         
     # Klasse mit mit allen notwendigen Funktionen für den Body des Programms
     class BodyFunctions():
@@ -186,38 +242,49 @@ class Main():
         # Beinhaltet Auwahlmöglichkeiten
         def body(self):
             print(" Startseite")
-            print(" ##########\n")
+            print(" ----------\n")
             print(" Was möchten Sie berechnen?\n")
             print(" 1. Relative Häufigkeiten")
             print(" 2. Medianwert")
-            print(" 3. (Gewogenes) Arithmetisches Mittel")
+            print(" 3. Arithmetisches Mittel")
+            print(" 4. Gewogenes Arithmetisches Mittel")
+            print(" 5. Geometrisches Mittel")
             return
         
         # Haendelt den allgemeinen User Input
         def user_input(self):
-            choice=input("\n Eingabe: ")
-            take = Main.Options()
-            if choice == "1":
-                take.option1()
-            elif choice == "2":
-                take.option2()
-            elif choice == "3":
-                take.option3()
+            uInput=input("\n Eingabe: ")
+            if uInput == "1":
+                take = Main.Operations.RelativeHaufigkeit(uInput)
+                take.Main()
+            elif uInput == "2":
+                take = Main.Operations.Medianwert(uInput)
+                take.Main()
+            elif uInput == "3":
+                take = Main.Operations.AM(uInput)
+                take.Main()
+            elif uInput == "4":
+                take = Main.Operations.GAM(uInput,uInput)
+                take.Main()
+            elif uInput == "5":
+                take = Main.Operations.GM(uInput)
+                take.Main()
             return
         
         # Exit
         def footer(self):
-            uInput = input("\n Neu starten? [y/n]")
+            uInput = input("\n Neu starten? [y/n]: ")
             if uInput == "n":
                 sys.exit(0)
                 return 
             elif uInput == "y":
                 return True          
-        
+    
     # Body Klasse - Mainfunction
     class Body():
         def __init__(self):
             Bodyfunction = Main.BodyFunctions()
+            
             while True:
                 clear()
                 Bodyfunction.header()
